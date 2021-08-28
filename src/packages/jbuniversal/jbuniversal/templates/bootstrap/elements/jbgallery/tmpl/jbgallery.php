@@ -30,17 +30,11 @@ $this->app->jbassets->fancybox();
                  title="<?php echo $thumb['name']; ?>"
                  width="<?php echo $thumb['thumb_width']; ?>"
                  height="<?php echo $thumb['thumb_height']; ?>" />
-
-            <div class="uk-overlay-area"></div>
         </a>
     <?php } ?>
 </div>
 
 <?php echo $this->app->jbassets->widget('#' . $galleryId . ' .jbgallery', 'fancybox', array(
-    'helpers' => array(
-        'title'   => array('type' => 'outside'),
-        'buttons' => array('position' => "top"),
-        'thumbs'  => array('width' => 80, 'height' => 80),
-        'overlay' => array('locked' => false)
-    )
+    'selector' => 'a.jbgallery'
 ), true); ?>
+

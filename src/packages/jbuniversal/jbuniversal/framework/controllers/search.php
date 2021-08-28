@@ -76,6 +76,12 @@ class SearchJBUniversalController extends JBUniversalController
         // create pagination
         if ($this->_jbrequest->isPost()) {
             $_POST['option'] = 'com_zoo';
+
+            // remove controller from sef filter page pagination
+            if ($view == 'filter') {
+                unset($_POST['controller']);
+            }
+
             unset($_POST['page']);
             unset($_POST['view']);
             unset($_POST['layout']);
@@ -83,6 +89,12 @@ class SearchJBUniversalController extends JBUniversalController
 
         } else {
             $_GET['option'] = 'com_zoo';
+            
+            // remove controller from sef filter page pagination
+            if ($view == 'filter') {
+                unset($_GET['controller']);
+            }
+
             unset($_GET['page']);
             unset($_GET['view']);
             unset($_GET['layout']);
@@ -121,7 +133,7 @@ class SearchJBUniversalController extends JBUniversalController
             $condElements = $this->app->jbconditions->getValue($menu_params->get('conditions'));
 
             if ($condElements == $elements) {
-                $metaDescription    = $menu_params->get('menu-meta_description') ? $menu_params->get('menu-meta_description') : $this->description;
+                $metaDescription    = $menu_params->get('menu-meta_description') ? $menu_params->get('menu-meta_description') : $menu_params->get('description');
                 $title              = $menu_params->get('page_title') ? $menu_params->get('page_title') : $menu->title;
                 $keywords           = $menu_params->get('menu-meta_keywords');
 

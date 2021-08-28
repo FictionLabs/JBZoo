@@ -36,12 +36,12 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
     /**
      * @var string
      */
-    private $_realOauth = 'https://api.cdek.ru/v2/oauth/token';
+    private $_realOauth = 'https://api.cdek.ru/v2/oauth/token?parameters';
 
     /**
      * @var string
      */
-    private $_testOauth = 'https://api.edu.cdek.ru/v2/oauth/token';
+    private $_testOauth = 'https://api.edu.cdek.ru/v2/oauth/token?parameters';
 
     /**
      * @var array
@@ -272,7 +272,7 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
      */
     public function apiOauth()
     {   
-        if (!$this->_oauth) {
+        if (empty($this->_oauth)) {
             $shipping   = $this->getOrder()->getShipping();
             $login      = $shipping->config->get('login');
             $password   = $shipping->config->get('password');
@@ -292,7 +292,13 @@ class JBCartElementHookSdekOrder extends JBCartElementHook
                 'method'    => 'post',
             ));
 
-            $result = json_decode($response, true);
+            $result = json_decode($response->body, true);
+
+            // Logging
+
+            if ($this->isLog()) {
+                $this->app->jblog->log('jbzoo.cart-elements.hook.sdekorder', 'apiOauth', $result);
+            }
 
             if ($result) {
                 $this->_oauth = $result;
